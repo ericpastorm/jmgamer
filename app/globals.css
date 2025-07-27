@@ -1,0 +1,104 @@
+/* Importa las funcionalidades base de Tailwind CSS. */
+@import "tailwindcss";
+
+/* ------------------------------------------------- */
+/* Definición de las variables de color para el tema */
+/* ------------------------------------------------- */
+@layer base {
+  :root {
+    /* Tema Claro (por defecto) */
+    --background: 210 40% 98%;
+    --foreground: 222.2 84% 4.9%;
+    --card: 210 40% 96.1%;
+    --card-foreground: 222.2 84% 4.9%;
+    --popover: 210 40% 98%;
+    --popover-foreground: 222.2 84% 4.9%;
+    --primary: 217.2 91.2% 59.8%;
+    --primary-foreground: 210 40% 98%;
+    --secondary: 210 40% 96.1%;
+    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 210 40% 96.1%;
+    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 210 40% 96.1%;
+    --accent-foreground: 222.2 47.4% 11.2%;
+    --border: 214.3 31.8% 91.4%;
+    --input: 214.3 31.8% 91.4%;
+    --ring: 222.2 84% 4.9%;
+    --radius: 0.5rem;
+    /* El problema: las variables de opacidad NO son animables por CSS, 
+       porque los custom properties (variables CSS) no se animan/transicionan 
+       cuando cambian en :root o [data-theme='dark'] */
+    --bg-light-opacity: 1;
+    --bg-dark-opacity: 0;
+  }
+
+  [data-theme='dark'] {
+    /* Tema Oscuro */
+    --background: 222.2 84% 4.9%;
+    --foreground: 210 40% 98%;
+    --card: 222.2 84% 5.9%;
+    --card-foreground: 210 40% 98%;
+    --popover: 222.2 84% 4.9%;
+    --popover-foreground: 210 40% 98%;
+    --primary: 193 97% 55%;
+    --primary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 217.2 32.6% 17.5%;
+    --secondary-foreground: 210 40% 98%;
+    --muted: 217.2 32.6% 17.5%;
+    --muted-foreground: 215 20.2% 65.1%;
+    --accent: 217.2 32.6% 17.5%;
+    --accent-foreground: 210 40% 98%;
+    --border: 217.2 32.6% 17.5%;
+    --input: 217.2 32.6% 17.5%;
+    --ring: 212.7 26.8% 83.9%;
+    --bg-light-opacity: 0;
+    --bg-dark-opacity: 1;
+  }
+  body {
+    background-color: hsl(var(--background));
+    color: hsl(var(--foreground));
+  }
+}
+
+/* ------------------------------------- */
+/* Código para el nuevo fondo moderno    */
+/* ------------------------------------- */
+
+body::before,
+body::after {
+  content: "";
+  position: fixed;
+  z-index: -1;
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  /* --- LÍNEA ELIMINADA --- */
+  /* Se ha quitado la línea 'transition: opacity 0.5s ease-in-out;' */
+  opacity: 0;
+}
+
+body::before {
+  /* Fondo para el tema claro */
+  background: radial-gradient(circle at 15% 25%, hsl(var(--primary) / 0.25), transparent 30%),
+              radial-gradient(circle at 80% 20%, hsl(280, 80%, 85%, 0.2), transparent 30%),
+              radial-gradient(circle at 90% 85%, hsl(190, 90%, 80%, 0.3), transparent 40%);
+  filter: blur(80px);
+}
+
+body::after {
+  /* Fondo para el tema oscuro */
+  background: radial-gradient(circle at 20% 30%, hsl(var(--primary) / 0.15), transparent 35%),
+              radial-gradient(circle at 85% 25%, hsl(260, 80%, 30%, 0.2), transparent 40%),
+              radial-gradient(circle at 70% 80%, hsl(var(--primary) / 0.1), transparent 35%);
+  filter: blur(90px);
+}
+
+/* Lógica de visibilidad explícita */
+html[data-theme='light'] body::before {
+  opacity: 1;
+}
+
+html[data-theme='dark'] body::after {
+  opacity: 1;
+}
